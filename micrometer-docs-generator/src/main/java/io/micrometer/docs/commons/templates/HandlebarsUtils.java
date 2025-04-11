@@ -34,19 +34,24 @@ import com.github.jknack.handlebars.io.TemplateLoader;
  */
 public class HandlebarsUtils {
 
+    private static Handlebars instance;
+
+    private HandlebarsUtils() {
+    }
+
     public static Handlebars createHandlebars() {
         // specify default prefix and empty suffix. The empty suffix forces users to
         // specify the full template file name. (e.g. foo.adoc.hbs)
-        ClassPathTemplateLoader classPathLoader = new ClassPathTemplateLoader(TemplateLoader.DEFAULT_PREFIX, "");
-        FileTemplateLoader fileLoader = new FileTemplateLoader(TemplateLoader.DEFAULT_PREFIX, "");
-        CompositeTemplateLoader compositeLoader = new CompositeTemplateLoader(classPathLoader, fileLoader);
-
-        Handlebars handlebars = new Handlebars(compositeLoader);
-        handlebars.registerHelpers(ADocHelpers.class);
-        handlebars.registerHelper("anchor", new ADocHelpers.AnchorHelper());
-        StringHelpers.register(handlebars);
-
-        return handlebars;
+        if (instance == null) {
+            ClassPathTemplateLoader classPathLoader = new ClassPathTemplateLoader(TemplateLoader.DEFAULT_PREFIX, "");
+            FileTemplateLoader fileLoader = new FileTemplateLoader(TemplateLoader.DEFAULT_PREFIX, "");
+            CompositeTemplateLoader compositeLoader = new CompositeTemplateLoader(classPathLoader, fileLoader);
+            instance = new Handlebars(compositeLoader);
+            instance.registerHelpers(ADocHelpers.class);
+            instance.registerHelper("anchor", new ADocHelpers.AnchorHelper());
+            StringHelpers.register(instance);
+        }
+        return instance;
     }
 
     /**
