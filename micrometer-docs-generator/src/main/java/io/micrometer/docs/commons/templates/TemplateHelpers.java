@@ -27,7 +27,7 @@ import com.github.jknack.handlebars.Options;
  *
  * @author Tadaya Tsuyukubo
  */
-public class ADocHelpers {
+public class TemplateHelpers {
 
     public static boolean isDynamic(String input) {
         return input.contains("%s");

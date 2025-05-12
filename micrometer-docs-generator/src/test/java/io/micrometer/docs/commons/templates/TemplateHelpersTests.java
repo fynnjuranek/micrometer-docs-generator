@@ -23,15 +23,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 /**
- * Tests for {@link ADocHelpers}.
+ * Tests for {@link TemplateHelpers}.
  *
  * @author Tadaya Tsuyukubo
  */
-class ADocHelpersTests {
+class TemplateHelpersTests {
 
     @Test
     void anchor() throws Exception {
-        ADocHelpers.AnchorHelper helper = new ADocHelpers.AnchorHelper();
+        TemplateHelpers.AnchorHelper helper = new TemplateHelpers.AnchorHelper();
         Options options = mock(Options.class);
         assertThat(helper.apply("foo", options)).isEqualTo("foo");
         assertThat(helper.apply("foo", options)).isEqualTo("foo-1");

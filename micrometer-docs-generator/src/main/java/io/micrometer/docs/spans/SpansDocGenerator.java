@@ -62,14 +62,14 @@ public class SpansDocGenerator {
         FileVisitor<Path> fv = new SpanSearchingFileVisitor(this.inclusionPattern, spanEntries, searchHelper);
         try {
             Files.walkFileTree(path, fv);
-            printSpansAdoc(spanEntries);
+            printSpansDoc(spanEntries);
         }
         catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
     }
 
-    private void printSpansAdoc(Collection<SpanEntry> spanEntries) throws IOException {
+    private void printSpansDoc(Collection<SpanEntry> spanEntries) throws IOException {
         Template template = HandlebarsUtils.createTemplate(this.templateLocation);
 
         Map<String, Object> map = new HashMap<>();

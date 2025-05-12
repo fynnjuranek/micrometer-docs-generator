@@ -34,12 +34,13 @@ class SameNameEnumMeterTests {
         Path output = Paths.get(".", "build/metrics/test1", "_metrics.adoc");
         Files.createDirectories(output.getParent());
 
-        new MetricsDocGenerator(root, Pattern.compile(".*"), "templates/metrics.adoc.hbs", output).generate();
+        new MetricsDocGenerator(root, Pattern.compile(".*"), "templates/asciidoc/metrics.adoc.hbs", output).generate();
 
         // check prefix
         // @formatter:off
         BDDAssertions.then(new String(Files.readAllBytes(output)))
                 .contains("foo-top")
+            .contains("foo in top")
                 .contains("foo-meter-top")
                 .contains("foo1")
                 .contains("foo-meter-1")

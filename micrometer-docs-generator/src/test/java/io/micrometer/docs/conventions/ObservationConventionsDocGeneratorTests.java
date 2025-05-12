@@ -38,7 +38,8 @@ class ObservationConventionsDocGeneratorTests {
         Path output = Paths.get(".", "build/data1", "_conventions.adoc");
         Files.createDirectories(output.getParent());
 
-        new ObservationConventionsDocGenerator(root, Pattern.compile(".*"), "templates/conventions.adoc.hbs", output)
+        new ObservationConventionsDocGenerator(root, Pattern.compile(".*"), "templates/asciidoc/conventions.adoc.hbs",
+                output)
             .generate();
 
         // @formatter:off
@@ -55,7 +56,8 @@ class ObservationConventionsDocGeneratorTests {
         Path output = Paths.get(".", "build/data2", "_conventions.adoc");
         Files.createDirectories(output.getParent());
 
-        new ObservationConventionsDocGenerator(root, Pattern.compile(".*"), "templates/conventions.adoc.hbs", output)
+        new ObservationConventionsDocGenerator(root, Pattern.compile(".*"), "templates/asciidoc/conventions.adoc.hbs",
+                output)
             .generate();
 
         // @formatter:off

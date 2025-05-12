@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.regex.Pattern;
 
 import io.micrometer.common.util.internal.logging.InternalLogger;
@@ -57,15 +58,15 @@ public class DocsGeneratorCommand implements Runnable {
     @Parameters(index = "2", description = "The output directory.")
     private Path outputDir;
 
-    @Option(names = "--metrics-template", defaultValue = "templates/metrics.adoc.hbs",
+    @Option(names = "--metrics-template", defaultValue = "templates/asciidoc/metrics.adoc.hbs",
             description = "Metrics template location")
     private String metricsTemplate;
 
-    @Option(names = "--spans-template", defaultValue = "templates/spans.adoc.hbs",
+    @Option(names = "--spans-template", defaultValue = "templates/asciidoc/spans.adoc.hbs",
             description = "Spans template location")
     private String spansTemplate;
 
-    @Option(names = "--conventions-template", defaultValue = "templates/conventions.adoc.hbs",
+    @Option(names = "--conventions-template", defaultValue = "templates/asciidoc/conventions.adoc.hbs",
             description = "Observation Conventions template location")
     private String conventionsTemplate;
 
@@ -80,6 +81,10 @@ public class DocsGeneratorCommand implements Runnable {
     @Option(names = "--conventions-output", defaultValue = "_conventions.adoc",
             description = "Generated observation conventions filename. Absolute path or relative path to the output directory.")
     private Path conventionsOutput;
+
+    @Option(names = "--format", defaultValue = "adoc",
+            description = "Template format. Choose Markdown (md) or Asciidoc (adoc)")
+    private String templateFormat;
 
     public static void main(String... args) {
         DocsGeneratorCommand command = new DocsGeneratorCommand();
@@ -131,8 +136,11 @@ public class DocsGeneratorCommand implements Runnable {
         logger.info("Project root: {}", this.projectRoot);
         logger.info("Inclusion pattern: {}", this.inclusionPattern);
         logger.info("Output root: {}", this.outputDir);
-
-        this.options.setAllIfNoneSpecified();
+        logger.info("Output format: {}", this.templateFormat);
+        // when format is specified to markdown update templates and output files
+        if (templateFormat.equals("md")) {
+            updateFormat();
+        }
         if (this.options.metrics) {
             generateMetricsDoc();
         }
@@ -142,6 +150,18 @@ public class DocsGeneratorCommand implements Runnable {
         if (this.options.conventions) {
             generateConventionsDoc();
         }
+    }
+
+    private void updateFormat() {
+        // update templates from adoc to markdown
+        // replace for default templates
+        this.metricsTemplate = this.metricsTemplate.replace("asciidoc", "markdown").replace(".adoc", ".md");
+        this.spansTemplate = this.spansTemplate.replace("asciidoc", "markdown").replace(".adoc", ".md");
+        this.conventionsTemplate = this.conventionsTemplate.replace("asciidoc", "markdown").replace(".adoc", ".md");
+
+        this.spansOutput = Paths.get(this.spansOutput.toString().replace(".adoc", ".md"));
+        this.metricsOutput = Paths.get(this.metricsOutput.toString().replace(".adoc", ".md"));
+        this.conventionsOutput = Paths.get(this.conventionsOutput.toString().replace(".adoc", ".md"));
     }
 
     void generateMetricsDoc() {
@@ -186,22 +206,14 @@ public class DocsGeneratorCommand implements Runnable {
 
     static class Options {
 
-        @Option(names = "--metrics", description = "Generate metrics documentation")
+        @Option(names = "--metrics", description = "Generate metrics documentation", defaultValue = "true")
         private boolean metrics;
 
-        @Option(names = "--spans", description = "Generate spans documentation")
+        @Option(names = "--spans", description = "Generate spans documentation", defaultValue = "true")
         private boolean spans;
 
-        @Option(names = "--conventions", description = "Generate conventions documentation")
+        @Option(names = "--conventions", description = "Generate conventions documentation", defaultValue = "true")
         private boolean conventions;
-
-        void setAllIfNoneSpecified() {
-            if (!this.metrics && !this.spans && !this.conventions) {
-                this.metrics = true;
-                this.spans = true;
-                this.conventions = true;
-            }
-        }
 
     }
 

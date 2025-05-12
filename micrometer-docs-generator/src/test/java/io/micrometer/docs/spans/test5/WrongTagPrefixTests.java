@@ -38,7 +38,7 @@ class WrongTagPrefixTests {
 
         // @formatter:off
         assertThatThrownBy(() ->
-                new SpansDocGenerator(root, Pattern.compile(".*"), "templates/spans.adoc.hbs", output).generate())
+                new SpansDocGenerator(root, Pattern.compile(".*"), "templates/asciidoc/spans.adoc.hbs", output).generate())
                 .hasMessageContaining("The following documented objects do not have properly prefixed tag keys according to their prefix() method. Please align the tag keys.")
                 .hasMessageContaining("Name <PARENT> in class <io.micrometer.docs.spans.test5.ParentSample> has the following prefix <foo.bar> and following invalid tag keys bar")
                 .hasMessageContaining("Name <PARENT> in class <io.micrometer.docs.spans.test5.ParentSample> has the following prefix <foo.bar> and following invalid tag keys foo");

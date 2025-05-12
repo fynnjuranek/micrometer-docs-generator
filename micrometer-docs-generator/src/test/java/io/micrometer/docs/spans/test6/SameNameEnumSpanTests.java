@@ -34,7 +34,7 @@ class SameNameEnumSpanTests {
         Path output = Paths.get(".", "build/test6", "_spans.adoc");
         Files.createDirectories(output.getParent());
 
-        new SpansDocGenerator(root, Pattern.compile(".*"), "templates/spans.adoc.hbs", output).generate();
+        new SpansDocGenerator(root, Pattern.compile(".*"), "templates/asciidoc/spans.adoc.hbs", output).generate();
 
         // @formatter:off
         BDDAssertions.then(new String(Files.readAllBytes(output)))

@@ -31,7 +31,8 @@ class ComplexJavadocTest {
         File sourceRoot = new File("src/test/java/io/micrometer/docs/metrics/usecases/sanitizing");
         Path output = Paths.get("./build", "_metrics.adoc");
 
-        new MetricsDocGenerator(sourceRoot, Pattern.compile(".*"), "templates/metrics.adoc.hbs", output).generate();
+        new MetricsDocGenerator(sourceRoot, Pattern.compile(".*"), "templates/asciidoc/metrics.adoc.hbs", output)
+            .generate();
 
         BDDAssertions.then(output)
             .hasSameTextualContentAs(Paths.get(getClass().getResource("/expected-sanitizing.adoc").getFile()));

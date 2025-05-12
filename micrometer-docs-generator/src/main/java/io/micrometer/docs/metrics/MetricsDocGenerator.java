@@ -63,14 +63,14 @@ public class MetricsDocGenerator {
         FileVisitor<Path> fv = new MetricSearchingFileVisitor(this.inclusionPattern, entries, searchHelper);
         try {
             Files.walkFileTree(path, fv);
-            printMetricsAdoc(entries);
+            printMetricsDoc(entries);
         }
         catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
     }
 
-    private void printMetricsAdoc(Collection<MetricEntry> entries) throws IOException {
+    private void printMetricsDoc(Collection<MetricEntry> entries) throws IOException {
         Template template = HandlebarsUtils.createTemplate(this.templateLocation);
 
         Map<String, Object> map = new HashMap<>();

@@ -53,7 +53,7 @@ class ObservationConventionEntryTests {
         map.put("globals", globals);
         map.put("locals", locals);
 
-        String template = "templates/conventions.adoc.hbs";
+        String template = "templates/asciidoc/conventions.adoc.hbs";
 
         String result = handlebars.compile(template).apply(map);
 

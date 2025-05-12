@@ -42,8 +42,8 @@ public class HandlebarsUtils {
         CompositeTemplateLoader compositeLoader = new CompositeTemplateLoader(classPathLoader, fileLoader);
 
         Handlebars handlebars = new Handlebars(compositeLoader);
-        handlebars.registerHelpers(ADocHelpers.class);
-        handlebars.registerHelper("anchor", new ADocHelpers.AnchorHelper());
+        handlebars.registerHelpers(TemplateHelpers.class);
+        handlebars.registerHelper("anchor", new TemplateHelpers.AnchorHelper());
         StringHelpers.register(handlebars);
 
         return handlebars;

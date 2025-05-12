@@ -66,14 +66,14 @@ public class ObservationConventionsDocGenerator {
                 observationConventionEntries, searchHelper);
         try {
             Files.walkFileTree(path, fv);
-            printObservationConventionsAdoc(observationConventionEntries);
+            printObservationConventionsDoc(observationConventionEntries);
         }
         catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
     }
 
-    private void printObservationConventionsAdoc(TreeSet<ObservationConventionEntry> entries) throws IOException {
+    private void printObservationConventionsDoc(TreeSet<ObservationConventionEntry> entries) throws IOException {
         List<ObservationConventionEntry> globals = entries.stream()
             .filter(e -> e.getType() == Type.GLOBAL)
             .collect(Collectors.toList());
